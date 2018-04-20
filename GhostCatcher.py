@@ -13,7 +13,6 @@ bke.resizeTo(900,600)
 play = Image("play button.jpg",game)
 play.resizeBy(-40)
 play.y -= 10
-#bk.draw()
 larry =  Image("larry(2).gif", game)
 larry.resizeBy(-65)
 larry.x -= 385
@@ -29,9 +28,8 @@ ghost2.y += 15
 ghost2.resizeBy(-85)
 soul = Image("soul.png", game)
 soul.visible = False
-#soul.x = larry.x
-#soul.y = larry.y+50
 
+#Sounds
 spook = Sound("GHOST8B.wav",1)
 collect = Sound("collect.wav",2)
 hit = Sound("hit.wav",3)
@@ -41,6 +39,7 @@ hit = Sound("hit.wav",3)
 souls = []
 for index in range(8):
     souls.append( Image( "soul.png", game ) )
+    
 #Title Screen
 game.over = False
 while not game.over:
@@ -56,15 +55,12 @@ while not game.over:
     
 #Level 1
 game.over = False
-ghost1spassed = 0
 while not game.over:
     game.processInput()
-    #game.clearBackground()
     bk.draw()
     larry.draw()
     soul.move()
     ghost1.draw()
-    #ghost2.draw()
 
     for index in range(8):
         x = randint(60,870)
@@ -81,37 +77,21 @@ while not game.over:
             larry.health += 5
             collect.play()
 
-    ghost1.forward(6)
+    ghost1.forward(6)  #allows ghost 1 to move forward
     ghost1.move()
 
     if ghost1.x>20 and ghost1.y>25:
-        #a = ghost1.angleTo(larry)
         ghost1.setSpeed(6,90)
         ghost1.draw()
-        #ghost1.rotateTo(a)
 
-    #ghost2.forward(6)
     ghost2.visible = False
-    #ghost2.moveTo(870,400)
     
-
-    #a = ghost2.angleTo(larry)
-    #ghost2.rotateTo(a-90)
-    #ghost2.moveTowards(larry,6)
-
-    
-        
-        
-        
     if ghost1.isOffScreen ("left") or soul.collidedWith(ghost1):
         ghost1.visible = False
         ghost1.setSpeed(0,0)
         ghost2.visible = True
-        
-        
         ghost2.setSpeed(6,90)
         ghost2.speed += 1
-        #ghost2.draw()
         ghost2.move()
 
         
@@ -132,7 +112,6 @@ while not game.over:
 
     if soul.collidedWith(ghost1):
         ghost1.health -= 100
-        #ghost1.visible = False
         soul.visible = False
         game.score += 1
         hit.play()
@@ -146,21 +125,17 @@ while not game.over:
         ghost2.moveTo(game.width, y)
         ghost2.setSpeed(6,90)
         ghost2.speed += 1
-
-        
-        
         ghost2.visible = True
         game.score += 1
 
     if ghost2.collidedWith(larry):
         larry.health -= 1
+        spook.play()
 
-
-    
 
     if ghost1.health <1:
         ghost1.visible = False
-        game.over = True
+       
 
     if larry.health <1:
         game.over = True
@@ -172,8 +147,6 @@ while not game.over:
     game.update(60)
 
 #End Screen
-#game.over = False
-#while not game.over:
 game.processInput()
 bke.draw()
 game.drawText("Press [ESC] to Quit",305,400)
